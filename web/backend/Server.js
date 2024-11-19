@@ -15,8 +15,21 @@ const jwt = require("jsonwebtoken");
 dotenv.config();
 
 app.use(bodyParser.json());
+const allowedOrigins = [
+  'https://help-desk-frontend-sigma.vercel.app', // Production frontend
+  'http://localhost:3000' // Development frontend
+];
+
 app.use(cors({
-  origin: 'https://help-desk-frontend-sigma.vercel.app'
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("CORS not allowed for this origin"));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
+  credentials: true, 
 }));
 app.use(express.json());
 
