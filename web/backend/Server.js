@@ -15,7 +15,9 @@ const jwt = require("jsonwebtoken");
 dotenv.config();
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://help-desk-frontend-sigma.vercel.app'
+}));
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI, {
